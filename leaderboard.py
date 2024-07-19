@@ -18,3 +18,7 @@ def display_leaderboard():
             scores = sorted(scores, key=lambda x: float(x[1]))
             for i, (name, time) in enumerate(scores):
                 print(f"{i+1}. {name} - {time} seconds")
+    else:
+        print("No scores available yet.")
+    print("\nPress Enter to return to the menu.")
+    input()  # Wait for the user to press Enter
