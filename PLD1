@@ -2,7 +2,7 @@
 import random
 import os
 import time
-
+from leaderboard import update_leaderboard, update_leaderboard
 
 #List of symbols for the cards
 symbols = ['❤','🤩','🤑','🤡','😎','😂','😏','🥵']
