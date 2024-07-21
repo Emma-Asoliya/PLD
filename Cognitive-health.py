@@ -24,6 +24,16 @@ print("Shuffled Symbols:", symbols)
 print("Shuffled Numbers:", numbers)
 print("Shuffled Letters:", letters)
 
+# Function to print the board
+def print_board(board, revealed):
+    for i in range(4):
+        for j in range(4):
+            if revealed[i][j]:
+                print(board[i][j], end=' ')
+            else:
+                print('❓ ', end=' ')
+        print()
+
 #The menu interface 
 def display_menu():
     while True:
