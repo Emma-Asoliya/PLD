@@ -8,7 +8,7 @@
  random.shuffle(symbols)
 
 #List of numbers for the cards
-numbers = ['2','4','6','8','10','12',14','16']
+numbers = ['2','4','6','8','10','12','14','16']
 numbers = numbers * 2 #to make pairs 
 random.shuffle(numbers)
 
@@ -21,3 +21,7 @@ random.shuffle(letters)
 print("Shuffled Symbols:", symbols)
 print("Shuffled Numbers:", numbers)
 print("Shuffled Letters:", letters)
+
+#The menu interface 
+
+
