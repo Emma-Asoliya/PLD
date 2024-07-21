@@ -1,4 +1,6 @@
  import random
+ import os
+ import time
 
  # List of symbols for the cards 
  symbols = ['🤎','🤩','🤑','🤡','😎','😂','😏','🥵']
@@ -23,5 +25,17 @@ print("Shuffled Numbers:", numbers)
 print("Shuffled Letters:", letters)
 
 #The menu interface 
+def display_menu():
+    while True:
+        os.system('clear')
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("                            ✨ Welcome to the Memory Game ✨                             ")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("1. Start Game")
+        print("2. Instructions")
+        print("3. About")
+        print("4. View Leaderboard")
+        print("5. Exit")
+
 
 
