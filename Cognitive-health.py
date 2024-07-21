@@ -37,5 +37,14 @@ def display_menu():
         print("4. View Leaderboard")
         print("5. Exit")
 
+         choice = input("Enter your choice (1-5): ")
+        if choice in ['1', '2', '3', '4', '5']:
+            return choice
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+            time.sleep(2)  # gives two seconds for the user to give their choice
+
+display_menu()
+
 
 
