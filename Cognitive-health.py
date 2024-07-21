@@ -34,6 +34,33 @@ def print_board(board, revealed):
                 print('❓ ', end=' ')
         print()
 
+# Function to get the player's card selection
+def get_card_selection(board, revealed):
+    # Get the first card
+    row1 = int(input('Enter the row for the first card (0-3): '))
+    col1 = int(input('Enter the column for the first card (0-3): '))
+    revealed[row1][col1] = True
+
+    os.system('clear')  # Use 'cls' if you're on Windows
+    print_board(board, revealed)
+
+    # Get the second card
+    row2 = int(input('Enter the row for the second card (0-3): '))
+    col2 = int(input('Enter the column for the second card (0-3): '))
+    revealed[row2][col2] = True
+
+    os.system('clear')  # Use 'cls' if you're on Windows
+    print_board(board, revealed)
+
+    # Check if the cards match
+    if board[row1][col1] != board[row2][col2]:
+        print('No match! Try again.')
+        time.sleep(2)  # Pause to let the user see the result
+        revealed[row1][col1] = False
+        revealed[row2][col2] = False
+    else:
+        print('Match found!')
+
 #The menu interface 
 def display_menu():
     while True:
