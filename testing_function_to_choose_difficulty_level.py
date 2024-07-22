@@ -2,17 +2,28 @@ import random
 import os
 import time
 
-# Function to initialize the board with shuffled symbols
-def initialize_board(size):
-    symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
-    symbols = symbols * (size * size // 2)
+# List of symbols for the cards
+symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
+medium_symbols = symbols + ['🤠', '😇', '😜', '🧐', '🤯', '🥳']
+hard_symbols = medium_symbols + ['🤬', '🤢', '🤧', '🤓', '🤠', '😇', '😜', '🧐']
+
+# Shuffle the symbols for each difficulty level
+def shuffle_symbols(symbols):
+    symbols = symbols * 2  # To make pairs
     random.shuffle(symbols)
-    
-    # Create the board
-    board = [symbols[i:i+size] for i in range(0, len(symbols), size)]
-    return board
+    return symbols
 
 # Function to print the board
+def print_board(board, revealed):
+    size = len(board)
+    for i in range(size):
+        for j in range(size):
+            if revealed[i][j]:
+                print(board[i][j], end=' ')
+            else:
+                print('❓ ', end=' ')
+        print()
+
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
     size = len(board)
@@ -32,7 +43,7 @@ def get_card_selection(board, revealed):
 
     if board[row1][col1] != board[row2][col2]:
         print('No match! Try again.')
-        time.sleep(2)
+        time.sleep(2)  # Pause to let the user see the result
         revealed[row1][col1] = False
         revealed[row2][col2] = False
     else:
@@ -72,11 +83,11 @@ def display_instructions():
     print("3. If the symbols on the cards match, they remain revealed.")
     print("4. If they do not match, they will be hidden again.")
     print("5. The game continues until all pairs are matched.")
-    print("Good luck 🤞") 
+    print("Goodluck 🤞") 
     print("\nPress Enter to return to the menu.")
     input()  # Waits for the user to press Enter so that they can go back to the menu
 
-# Function to display about information
+# Function to display about
 def display_about():
     os.system('clear')
     print("📜 About Memory Game:")
@@ -86,28 +97,21 @@ def display_about():
     print("\nPress Enter to return to the menu.")
     input()  # Wait for the user to press Enter
 
-# Function to update the leaderboard
-def update_leaderboard(player_name, elapsed_time):
-    with open("leaderboard.txt", "a") as file:
-        file.write(f"{player_name},{elapsed_time}\n")
-
-# Function to display the leaderboard
-def display_leaderboard():
-    os.system('clear')
-    print("🏆 Leaderboard 🏆")
-    if os.path.exists("leaderboard.txt"):
-        with open("leaderboard.txt", "r") as file:
-            scores = [line.strip().split(",") for line in file]
-            scores = sorted(scores, key=lambda x: float(x[1]))
-            for i, (name, time) in enumerate(scores):
-                print(f"{i+1}. {name} - {time} seconds")
-    else:
-        print("No scores available yet.")
-    print("\nPress Enter to return to the menu.")
-    input()  # Wait for the user to press Enter
 
 # Main game loop
+def start_game():
+    size = select_difficulty()
+    if size is None:
+        return
 
+    board = initialize_board(size)
+    revealed = [[False] * size for _ in range(size)]
+    
+    while True:
+        os.system('clear')
+        print_board(board, revealed)
+        get_card_selection(board, revealed)
+        # Add your win condition check and other game logic here
 
 # Main menu function
 def display_menu():
