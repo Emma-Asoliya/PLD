@@ -13,16 +13,6 @@ def initialize_board(size):
     return board
 
 # Function to print the board
-def print_board(board, revealed):
-    size = len(board)
-    for i in range(size):
-        for j in range(size):
-            if revealed[i][j]:
-                print(board[i][j], end=' ')
-            else:
-                print('❓ ', end=' ')
-        print()
-
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
     size = len(board)
@@ -117,19 +107,7 @@ def display_leaderboard():
     input()  # Wait for the user to press Enter
 
 # Main game loop
-def start_game():
-    size = select_difficulty()
-    if size is None:
-        return
 
-    board = initialize_board(size)
-    revealed = [[False] * size for _ in range(size)]
-    
-    while True:
-        os.system('clear')
-        print_board(board, revealed)
-        get_card_selection(board, revealed)
-        # Add your win condition check and other game logic here
 
 # Main menu function
 def display_menu():
