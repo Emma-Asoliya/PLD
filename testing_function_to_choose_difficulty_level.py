@@ -97,46 +97,48 @@ def display_about():
     print("\nPress Enter to return to the menu.")
     input()  # Wait for the user to press Enter
 
-# Function to set up the game board based on difficulty level
-def setup_board(difficulty):
-    if difficulty == '1':  # Easy
-        size = 4
-        symbols = shuffle_symbols(['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵'])
-    elif difficulty == '2':  # Medium
-        size = 6
-        symbols = shuffle_symbols(medium_symbols)
-    elif difficulty == '3':  # Hard
-        size = 8
-        symbols = shuffle_symbols(hard_symbols)
-    
-    board = [[symbols.pop() for _ in range(size)] for _ in range(size)]
-    revealed = [[False] * size for _ in range(size)]
-    return board, revealed
-
-# Function to choose difficulty level
-def choose_difficulty():
-    while True:
-        os.system('clear')
-        print("Choose Difficulty Level:")
-        print("1. Easy (4x4 grid)")
-        print("2. Medium (6x6 grid)")
-        print("3. Hard (8x8 grid)")
-        
-        choice = input("Enter your choice (1-3): ")
-        if choice in ['1', '2', '3']:
-            return choice
-        else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
-            time.sleep(2)
 
 # Main game loop
 def start_game():
-    difficulty = choose_difficulty()
-    board, revealed = setup_board(difficulty)
-    os.system('clear')
-    print_board(board, revealed)
+    size = select_difficulty()
+    if size is None:
+        return
 
-    while not all(all(row) for row in revealed):
-        get_card_selection(board, revealed)
+    board = initialize_board(size)
+    revealed = [[False] * size for _ in range(size)]
     
-    print("Congratulations! All matching pairs have been found.")
+    while True:
+        os.system('clear')
+        print_board(board, revealed)
+        get_card_selection(board, revealed)
+        # Add your win condition check and other game logic here
+
+# Main menu function
+def display_menu():
+    while True:
+        os.system('clear')
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("                            ✨ Welcome to the Memory Game ✨                             ")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("1. Start Game")
+        print("2. Instructions")
+        print("3. About")
+        print("4. View Leaderboard")
+        print("5. Exit")
+
+        choice = input("Enter your choice (1-5): ")
+        if choice == '1':
+            start_game()
+        elif choice == '2':
+            display_instructions()
+        elif choice == '3':
+            display_about()
+        elif choice == '4':
+            display_leaderboard()
+        elif choice == '5':
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+            time.sleep(2)
+
+display_menu()
