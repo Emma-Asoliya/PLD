@@ -49,25 +49,30 @@ def get_card_selection(board, revealed):
     else:
         print('Match found!')
 
-# Function to display the menu
-def display_menu():
+# Function to display the difficulty levels
+def select_difficulty():
     while True:
         os.system('clear')
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print("                            ✨ Welcome to the Memory Game ✨                             ")
+        print("                            ✨ Select Difficulty Level ✨                             ")
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print("1. Start Game")
-        print("2. Instructions")
-        print("3. About")
-        print("4. View Leaderboard")
-        print("5. Exit")
+        print("1. Easy (4x4 grid)")
+        print("2. Medium (6x6 grid)")
+        print("3. Hard (8x8 grid)")
+        print("4. Back to Menu")
 
-        choice = input("Enter your choice (1-5): ")
-        if choice in ['1', '2', '3', '4', '5']:
-            return choice
+        choice = input("Enter your choice (1-4): ")
+        if choice == '1':
+            return 4
+        elif choice == '2':
+            return 6
+        elif choice == '3':
+            return 8
+        elif choice == '4':
+            return None
         else:
-            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
-            time.sleep(2)  # Gives two seconds for the user to give their choice
+            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+            time.sleep(2)
 
 # Function to display instructions
 def display_instructions():
