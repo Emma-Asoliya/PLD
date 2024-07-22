@@ -2,32 +2,22 @@ import random
 import os
 import time
 
- # List of symbols for the cards 
-symbols = ['🤎','🤩','🤑','🤡','😎','😂','😏','🥵']
-symbols = symbols * 2 #to make pairs 
+# List of symbols for the cards
+symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
+medium_symbols = symbols + ['🤠', '😇', '😜', '🧐', '🤯', '🥳']
+hard_symbols = medium_symbols + ['🤬', '🤢', '🤧', '🤓', '🤠', '😇', '😜', '🧐']
 
- #to shuffle the symbols randomly 
-random.shuffle(symbols)
-
-#List of numbers for the cards
-numbers = ['2','4','6','8','10','12','14','16']
-numbers = numbers * 2 #to make pairs 
-random.shuffle(numbers)
-
-#List of letters for the cards 
-letters = ['A','F','H','U','L','T','C','Z']
-letters = letters * 2 #to make pairs
-random.shuffle(letters)
-
-#Output the shuffled lists
-print("Shuffled Symbols:", symbols)
-print("Shuffled Numbers:", numbers)
-print("Shuffled Letters:", letters)
+# Shuffle the symbols for each difficulty level
+def shuffle_symbols(symbols):
+    symbols = symbols * 2  # To make pairs
+    random.shuffle(symbols)
+    return symbols
 
 # Function to print the board
 def print_board(board, revealed):
-    for i in range(4):
-        for j in range(4):
+    size = len(board)
+    for i in range(size):
+        for j in range(size):
             if revealed[i][j]:
                 print(board[i][j], end=' ')
             else:
@@ -36,23 +26,21 @@ def print_board(board, revealed):
 
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
-    # Get the first card
-    row1 = int(input('Enter the row for the first card (0-3): '))
-    col1 = int(input('Enter the column for the first card (0-3): '))
+    size = len(board)
+    row1 = int(input(f'Enter the row for the first card (0-{size-1}): '))
+    col1 = int(input(f'Enter the column for the first card (0-{size-1}): '))
     revealed[row1][col1] = True
 
     os.system('clear')  # Use 'cls' if you're on Windows
     print_board(board, revealed)
 
-    # Get the second card
-    row2 = int(input('Enter the row for the second card (0-3): '))
-    col2 = int(input('Enter the column for the second card (0-3): '))
+    row2 = int(input(f'Enter the row for the second card (0-{size-1}): '))
+    col2 = int(input(f'Enter the column for the second card (0-{size-1}): '))
     revealed[row2][col2] = True
 
     os.system('clear')  # Use 'cls' if you're on Windows
     print_board(board, revealed)
 
-    # Check if the cards match
     if board[row1][col1] != board[row2][col2]:
         print('No match! Try again.')
         time.sleep(2)  # Pause to let the user see the result
@@ -61,7 +49,7 @@ def get_card_selection(board, revealed):
     else:
         print('Match found!')
 
-#The menu interface 
+# Function to display the menu
 def display_menu():
     while True:
         os.system('clear')
@@ -79,24 +67,22 @@ def display_menu():
             return choice
         else:
             print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
-            time.sleep(2)  # gives two seconds for the user to give their choice
+            time.sleep(2)  # Gives two seconds for the user to give their choice
 
-display_menu()
-
-#The function that is linked to 2.Instructions
+# Function to display instructions
 def display_instructions():
     os.system('clear')
     print("📜 Memory Game Instructions:")
-    print("1. The game board contains 8 pairs of hidden symbols.")
+    print("1. The game board contains pairs of hidden symbols.")
     print("2. On each turn, you can reveal two cards.")
     print("3. If the symbols on the cards match, they remain revealed.")
     print("4. If they do not match, they will be hidden again.")
     print("5. The game continues until all pairs are matched.")
     print("Goodluck 🤞") 
     print("\nPress Enter to return to the menu.")
-    input()  # Waits for the user to press Enter sp that they can go back to the menu
+    input()  # Waits for the user to press Enter so that they can go back to the menu
 
-#The fuction that is linked to 3.about
+# Function to display about
 def display_about():
     os.system('clear')
     print("📜 About Memory Game:")
@@ -105,6 +91,22 @@ def display_about():
     print("This game is a simple memory matching game developed as a project that aims to support cognitive health for all in Africa and beyond.")
     print("\nPress Enter to return to the menu.")
     input()  # Wait for the user to press Enter
+
+# Function to set up the game board based on difficulty level
+def setup_board(difficulty):
+    if difficulty == '1':  # Easy
+        size = 4
+        symbols = shuffle_symbols(['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵'])
+    elif difficulty == '2':  # Medium
+        size = 6
+        symbols = shuffle_symbols(medium_symbols)
+    elif difficulty == '3':  # Hard
+        size = 8
+        symbols = shuffle_symbols(hard_symbols)
+    
+    board = [[symbols.pop() for _ in range(size)] for _ in range(size)]
+    revealed = [[False] * size for _ in range(size)]
+    return board, revealed
 
 # Function to choose difficulty level
 def choose_difficulty():
@@ -121,3 +123,15 @@ def choose_difficulty():
         else:
             print("Invalid choice. Please enter 1, 2, or 3.")
             time.sleep(2)
+
+# Main game loop
+def start_game():
+    difficulty = choose_difficulty()
+    board, revealed = setup_board(difficulty)
+    os.system('clear')
+    print_board(board, revealed)
+
+    while not all(all(row) for row in revealed):
+        get_card_selection(board, revealed)
+    
+    print("Congratulations! All matching pairs have been found.")
