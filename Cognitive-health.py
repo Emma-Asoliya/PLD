@@ -1,13 +1,13 @@
- import random
- import os
- import time
+import random
+import os
+import time
 
  # List of symbols for the cards 
- symbols = ['🤎','🤩','🤑','🤡','😎','😂','😏','🥵']
- symbols = symbols * 2 #to make pairs 
+symbols = ['🤎','🤩','🤑','🤡','😎','😂','😏','🥵']
+symbols = symbols * 2 #to make pairs 
 
  #to shuffle the symbols randomly 
- random.shuffle(symbols)
+random.shuffle(symbols)
 
 #List of numbers for the cards
 numbers = ['2','4','6','8','10','12','14','16']
@@ -74,7 +74,7 @@ def display_menu():
         print("4. View Leaderboard")
         print("5. Exit")
 
-         choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice (1-5): ")
         if choice in ['1', '2', '3', '4', '5']:
             return choice
         else:
@@ -83,5 +83,16 @@ def display_menu():
 
 display_menu()
 
-
+#The function that is linked to 2.Instructions
+def display_instructions():
+    os.system('clear')
+    print("📜 Memory Game Instructions:")
+    print("1. The game board contains 8 pairs of hidden symbols.")
+    print("2. On each turn, you can reveal two cards.")
+    print("3. If the symbols on the cards match, they remain revealed.")
+    print("4. If they do not match, they will be hidden again.")
+    print("5. The game continues until all pairs are matched.")
+    print("Goodluck 🤞") 
+    print("\nPress Enter to return to the menu.")
+    input()  # Waits for the user to press Enter sp that they can go back to the menu
 
