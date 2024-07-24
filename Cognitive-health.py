@@ -13,6 +13,15 @@ def initialize_board(size):
     return board
 
 # Function to print the board
+def print_board(board, revealed):
+    for i in range(4):
+        for j in range(4):
+            if revealed[i][j]:
+                print(board[i][j], end=' ')
+            else:
+                print('❓ ', end=' ')
+        print()
+
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
     size = len(board)
