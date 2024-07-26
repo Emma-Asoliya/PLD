@@ -82,6 +82,7 @@ def select_difficulty():
             print("Invalid choice. Please enter 1, 2, 3, or 4.")
             time.sleep(2)
 
+
 # Function to display instructions
 def display_instructions():
     os.system('clear')
