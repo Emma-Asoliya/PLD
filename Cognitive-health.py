@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import random
 import os
 import time
@@ -8,21 +7,12 @@ def initialize_board(size):
     symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
     symbols = symbols * (size * size // 2)
     random.shuffle(symbols)
-
+    
     # Create the board
-    board = [symbols[i:i + size] for i in range(0, len(symbols), size)]
+    board = [symbols[i:i+size] for i in range(0, len(symbols), size)]
     return board
 
-def print_board(board, revealed):
-    size = len(board)
-    for i in range(size):
-        for j in range(size):
-            if revealed[i][j]:
-                print(board[i][j], end=' ')
-            else:
-                print('❓', end=' ')
-        print()
-
+# Function to print the board
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
     size = len(board)
@@ -47,15 +37,6 @@ def get_card_selection(board, revealed):
         revealed[row2][col2] = False
     else:
         print('Match found!')
-
-# Function to start the game
-def start_game(size):
-    board = initialize_board(size)
-    revealed = [[False]*size for _ in range(size)]
-    while not all(all(row) for row in revealed):
-        os.system('clear')
-        print_board(board, revealed)
-        get_card_selection(board, revealed)
 
 # Function to display the difficulty levels
 def select_difficulty():
@@ -143,7 +124,9 @@ def display_menu():
 
         choice = input("Enter your choice (1-5): ")
         if choice == '1':
-            start_game()
+            size = select_difficulty()
+            if size:
+                start_game(size)
         elif choice == '2':
             display_instructions()
         elif choice == '3':
