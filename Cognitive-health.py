@@ -13,6 +13,15 @@ def initialize_board(size):
     return board
 
 # Function to print the board
+def print_board(board, revealed):
+    size = len(board)
+    for i in range(size):
+        for j in range(size):
+            if revealed[i][j]:
+                print(board[i][j], end=' ')
+            else:
+                print('❓', end=' ')
+        print()
 # Function to get the player's card selection
 def get_card_selection(board, revealed):
     size = len(board)
@@ -37,6 +46,16 @@ def get_card_selection(board, revealed):
         revealed[row2][col2] = False
     else:
         print('Match found!')
+
+# Function to start the game
+def start_game(size):
+    board = initialize_board(size)
+    revealed = [[False]*size for _ in range(size)]
+    while not all(all(row) for row in revealed):
+        os.system('clear')
+        print_board(board, revealed)
+        get_card_selection(board, revealed)
+
 
 # Function to display the difficulty levels
 def select_difficulty():
