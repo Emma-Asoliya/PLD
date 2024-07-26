@@ -129,6 +129,7 @@ def display_leaderboard():
 
 
 # Main menu function
+# Main menu function
 def display_menu():
     while True:
         os.system('clear')
@@ -145,7 +146,7 @@ def display_menu():
         if choice == '1':
             size = select_difficulty()
             if size:
-                start_game(size)
+                start_game(size)  # Changed to pass size to start_game
         elif choice == '2':
             display_instructions()
         elif choice == '3':
@@ -157,5 +158,6 @@ def display_menu():
         else:
             print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
             time.sleep(2)
+
 
 display_menu()
