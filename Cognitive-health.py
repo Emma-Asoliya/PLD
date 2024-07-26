@@ -49,9 +49,9 @@ def get_card_selection(board, revealed):
         print('Match found!')
 
 # Function to start the game
-def start_game():
-    board = [symbols[:4], symbols[4:8], symbols[8:12], symbols[12:]]
-    revealed = [[False]*4 for _ in range(4)]
+def start_game(size):
+    board = initialize_board(size)
+    revealed = [[False]*size for _ in range(size)]
     while not all(all(row) for row in revealed):
         os.system('clear')
         print_board(board, revealed)
