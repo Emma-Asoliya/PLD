@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+import random
+import os
+import time
+
+# List of symbols for the cards
+symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
+symbols = symbols * 2  # to make pairs
+
+# To shuffle the symbols randomly
+random.shuffle(symbols)
+
+# List of numbers for the cards
+numbers = ['2', '4', '6', '8', '10', '12', '14', '16']
+numbers = numbers * 2  # to make pairs
+random.shuffle(numbers)
+
+# List of letters for the cards
+letters = ['A', 'F', 'H', 'U', 'L', 'T', 'C', 'Z']
+letters = letters * 2  # to make pairs
+random.shuffle(letters)
+
+# Output the shuffled lists
+print("Shuffled Symbols:", symbols)
+print("Shuffled Numbers:", numbers)
+print("Shuffled Letters:", letters)
+
+# Function to print the board
+def print_board(board, revealed):
+    for i in range(4):
+        for j in range(4):
+            if revealed[i][j]:
+                print(board[i][j], end=' ')
+            else:
+                print('❓ ', end=' ')
+        print()
+
+# Function to get the player's card selection
+def get_card_selection(board, revealed):
+    # Get the first card
+    row1 = int(input('Enter the row for the first card (0-3): '))
+    col1 = int(input('Enter the column for the first card (0-3): '))
+    revealed[row1][col1] = True
+
+    os.system('clear')
+    print_board(board, revealed)
+
+    # Get the second card
+    row2 = int(input('Enter the row for the second card (0-3): '))
+    col2 = int(input('Enter the column for the second card (0-3): '))
+    revealed[row2][col2] = True
+
+    os.system('clear')
+    print_board(board, revealed)
+
+    # Check if the cards match
+    if board[row1][col1] != board[row2][col2]:
+        print('No match! Try again.')
+        time.sleep(2)  # Pause to let the user see the result
+        revealed[row1][col1] = False
+        revealed[row2][col2] = False
+    else:
+        print('Match found!')
+
+# Function to start the game
+def start_game(symbols):
+    board = [symbols[:4], symbols[4:8], symbols[8:12], symbols[12:]]
+    revealed = [[False]*4 for _ in range(4)]
+    while not all(all(row) for row in revealed):
+        os.system('clear')
+        print_board(board, revealed)
+        get_card_selection(board, revealed)
+
+# The menu interface 
+def display_menu():
+    while True:
+        os.system('clear')
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("                            ✨   Welcome to the Memory Game ✨                               ")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("1. Start Game")
+        print("2. Instructions")
+        print("3. About")
+        print("4. View Leaderboard")
+        print("5. Exit")
+
+        choice = input("Enter your choice (1-5): ")
+        if choice in ['1', '2', '3', '4', '5']:
+            return choice
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+            time.sleep(2)  # gives two seconds for the user to give their choice
+
+# Main program logic
+def main():
+    while True:
+        choice = display_menu()
+        if choice == '1':
+            print("Starting the game...")
+            start_game(symbols)
+        elif choice == '2':
+            print("Instructions...")
+            # Add your instructions logic here
+        elif choice == '3':
+            print("About the game...")
+            # Add your about logic here
+        elif choice == '4':
+            print("Viewing leaderboard...")
+            # Add your leaderboard logic here
+        elif choice == '5':
+            print("Exiting the game. Goodbye!")
+            break
+        input("Press Enter to return to the menu...")
+
+if __name__ == "__main__":
+    main()
+
+

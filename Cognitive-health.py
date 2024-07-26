@@ -48,6 +48,15 @@ def get_card_selection(board, revealed):
     else:
         print('Match found!')
 
+# Function to start the game
+def start_game():
+    board = [symbols[:4], symbols[4:8], symbols[8:12], symbols[12:]]
+    revealed = [[False]*4 for _ in range(4)]
+    while not all(all(row) for row in revealed):
+        os.system('clear')
+        print_board(board, revealed)
+        get_card_selection(board, revealed)
+
 # Function to display the difficulty levels
 def select_difficulty():
     while True:
