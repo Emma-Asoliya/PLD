@@ -8,19 +8,19 @@ def initialize_board(size):
     symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
     symbols = symbols * (size * size // 2)
     random.shuffle(symbols)
-    
+
     # Create the board
-    board = [symbols[i:i+size] for i in range(0, len(symbols), size)]
+    board = [symbols[i:i + size] for i in range(0, len(symbols), size)]
     return board
 
-# Function to print the board
 def print_board(board, revealed):
-    for i in range(4):
-        for j in range(4):
+    size = len(board)
+    for i in range(size):
+        for j in range(size):
             if revealed[i][j]:
                 print(board[i][j], end=' ')
             else:
-                print('❓ ', end=' ')
+                print('❓', end=' ')
         print()
 
 # Function to get the player's card selection
