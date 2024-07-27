@@ -4,20 +4,49 @@ import os
 import time
 import shutil
 
-# List of symbols for the cards
-symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
-symbols = symbols * 2  # to make pairs
+# Function to display the difficulty levels
+def select_difficulty():
+    while True:
+        os.system('clear')
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("                            ✨ Select Difficulty Level ✨                             ")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("1. Easy (4x4 grid)")
+        print("2. Medium (6x6 grid)")
+        print("3. Hard (8x8 grid)")
+        print("4. Back to Menu")
 
-# To shuffle the symbols randomly
-random.shuffle(symbols)
+        choice = input("Enter your choice (1-4): ")
+        if choice == '1':
+            return 4
+        elif choice == '2':
+            return 6
+        elif choice == '3':
+            return 8
+        elif choice == '4':
+            return None
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+            time.sleep(2)  # Wait for 2 seconds to allow the user to see the error message
 
-# Output the shuffled lists
-print("Shuffled Symbols:", symbols)
+# Function to initialize the board
+def initialize_board(size):
+    symbols = ['🤎', '🤩', '🤑', '🤡', '😎', '😂', '😏', '🥵']
+    if size == 6:
+        symbols = symbols * 3  # For a 6x6 grid
+    elif size == 8:
+        symbols = symbols * 4  # For an 8x8 grid
+    else:
+        symbols = symbols * 2  # For a 4x4 grid
+
+    random.shuffle(symbols)
+    board = [symbols[i * size:(i + 1) * size] for i in range(size)]
+    return board
 
 # Function to print the board with larger "font"
 def print_board(board, revealed):
-    for i in range(4):
-        for j in range(4):
+    for i in range(len(board)):
+        for j in range(len(board[i])):
             if revealed[i][j]:
                 print(f" {board[i][j]} ", end='  ')  # Added spacing around emojis
             else:
@@ -28,11 +57,11 @@ def print_board(board, revealed):
 def get_card_selection(board, revealed):
     while True:
         try:
-            row1 = input('Enter the row for the first card (0-3) or q to return to the main menu: ')
+            row1 = input('Enter the row for the first card (0 to {}) or q to return to the main menu: '.format(len(board) - 1))
             if row1.lower() == 'q':
                 return False
             row1 = int(row1)
-            col1 = int(input('Enter the column for the first card (0-3): '))
+            col1 = int(input('Enter the column for the first card (0 to {}): '.format(len(board[0]) - 1)))
             if revealed[row1][col1]:
                 print("Card already revealed. Choose another card.")
                 continue
@@ -41,12 +70,12 @@ def get_card_selection(board, revealed):
             os.system('clear')
             print_board(board, revealed)
 
-            row2 = input('Enter the row for the second card (0-3) or q to return to the main menu: ')
+            row2 = input('Enter the row for the second card (0 to {}) or q to return to the main menu: '.format(len(board) - 1))
             if row2.lower() == 'q':
                 revealed[row1][col1] = False
                 return False
             row2 = int(row2)
-            col2 = int(input('Enter the column for the second card (0-3): '))
+            col2 = int(input('Enter the column for the second card (0 to {}): '.format(len(board[0]) - 1)))
             if revealed[row2][col2]:
                 print("Card already revealed. Choose another card.")
                 revealed[row1][col1] = False
@@ -65,13 +94,17 @@ def get_card_selection(board, revealed):
                 print('Match found!')
             break
         except (IndexError, ValueError):
-            print("Invalid input. Please enter numbers between 0 and 3.")
+            print("Invalid input. Please enter valid row and column numbers.")
     return True
 
 # Function to start the game
 def start_game():
-    board = [symbols[:4], symbols[4:8], symbols[8:12], symbols[12:]]
-    revealed = [[False]*4 for _ in range(4)]
+    size = select_difficulty()
+    if size is None:
+        return  # Return to the menu if the user chooses to go back
+
+    board = initialize_board(size)
+    revealed = [[False]*size for _ in range(size)]
     start_time = time.time()
     while not all(all(row) for row in revealed):
         os.system('clear')
